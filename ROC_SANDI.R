@@ -64,7 +64,6 @@ model_fneurite <- glm(Group ~ fneurite, data = train_data_fneurite, family = bin
 model_fsoma <- glm(Group ~ fsoma, data = train_data_fsoma, family = binomial())
 model_rsoma <- glm(Group ~ Rsoma, data = train_data_rsoma, family = binomial())
 
-# 使用测试数据评估模型
 predictions_de <- predict(model_de, test_data_de, type = "response")
 predicted_class_de <- ifelse(predictions_de > 0.5, 1, 0)
 confusionMatrix(as.factor(predicted_class_de), as.factor(test_data_de$Group))
