@@ -46,57 +46,49 @@ for(i in 1:5){
 result_exp_ad <- unlist(result_exp_ad)
 result_ctrl_ad <- unlist(result_ctrl_ad)
 
-# 可视化
+
 hist(result_exp_ad, main="Histogram for Experiment Group (AD)", xlab="Value")
-# QQ图
+
 qqnorm(result_exp_ad)
 qqline(result_exp_ad)
 
-# Kolmogorov-Smirnov检验
+# Kolmogorov-Smirnov
 ks_test_exp <- ks.test(result_exp_ad, "pnorm", mean=mean(result_exp_ad), sd=sd(result_exp_ad))
 print(paste("Kolmogorov-Smirnov Test p-value for Experiment Group (AD):", ks_test_exp$p.value))
 
-# 方差齐性检验（Levene's Test）
-# 假设result_ctrl_ad是对照组的数据
+# Levene's Tes
 levene_result <- leveneTest(c(result_exp_ad, result_ctrl_ad), factor(c(rep(1, length(result_exp_ad)), rep(2, length(result_ctrl_ad)))))
 print(paste("Levene's Test p-value:", levene_result[1, "Pr(>F)"]))
 
-# 可视化
 hist(result_ctrl_ad, main="Histogram for Control Group (AD)", xlab="Value")
-# QQ图
+
 qqnorm(result_ctrl_ad)
 qqline(result_ctrl_ad)
 
-# Kolmogorov-Smirnov检验
+# Kolmogorov-Smirnov
 ks_test_ctrl <- ks.test(result_ctrl_ad, "pnorm", mean=mean(result_ctrl_ad), sd=sd(result_ctrl_ad))
 print(paste("Kolmogorov-Smirnov Test p-value for Contral Group (AD):", ks_test_ctrl$p.value))
 
 t_result <- t.test(result_exp_ad, result_ctrl_ad)
 
-# 输出t检验结果
+# t-test
 print(t_result)
 
 mean_exp = mean(result_exp_ad)
 mean_ctrl = mean(result_ctrl_ad)
 print(paste("Mean Value of Experiment Group: ", mean_exp))
 print(paste("Mean Value of Control Group: ", mean_ctrl))
-# 计算实验组的标准差
 sd_exp = sd(result_exp_ad)
 
-# 计算对照组的标准差
 sd_ctrl = sd(result_ctrl_ad)
 
-# 输出标准差
 print(paste("Standard Deviation of Experiment Group: ", sd_exp))
 print(paste("Standard Deviation of Control Group: ", sd_ctrl))
 test_result <- wilcox.test(result_exp_ad, result_ctrl_ad, alternative = "two.sided")
 
-# 输出测试结果
 print(test_result)
-# 假设 exp_data 和 ctrl_data 是您的实验组和对照组数据
 cohen_d_result <- cohen.d(result_exp_ad, result_ctrl_ad, conf.level = 0.95)
 
-# 输出Cohen's d和95%置信区间
 print(cohen_d_result)
 
 delta <- cliff.delta(result_exp_ad, result_ctrl_ad, conf.level = 0.95)
